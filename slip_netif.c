@@ -1,3 +1,9 @@
+/* file:          slip_netif.c
+ * description:   Serial Line IP interface
+ * date:          12/2020
+ * author:        Sergio Johann Filho <sergio.johann@acad.pucrs.br>
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -12,7 +18,6 @@
 #include <fcntl.h>
 #include "include/ustack.h"
 
-FILE *tin, *tout;
 int fd;
 
 int32_t if_setup()
@@ -22,20 +27,10 @@ int32_t if_setup()
 		
 		return -1;
 	}
-/*	} else {
-		tout = fopen(SERIAL_DEV0, "w");
-		tin = fopen(SERIAL_DEV0, "r");
-		if ((tout && tin)) {
-			printf("[DEBUG] Serial interface %s initialized\n", SERIAL_DEV0);
-		
-			return 0;
-		} else {
-			printf("[FATAL] Error opening file descriptors\n");
-			
-			return -1;
-			
-		}
-	}*/
+	
+	printf("[DEBUG] Serial interface %s initialized\n", SERIAL_DEV0);
+	
+	return 0;
 }
 
 static void tty_write(uint8_t byte)
