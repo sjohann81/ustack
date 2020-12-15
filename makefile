@@ -1,8 +1,10 @@
 # application flags:
-#
+# USTACK_IP_ADDR		static configuration of IP address
+# USTACK_NETMASK		static configuration of network mask
+# USTACK_GW_ADDR		static configuration of gateway address
 # USTACK_BIG_ENDIAN		configures ustack to work on big endian machines
-# USTACK_TAP_ADDR		ustack TUN/TAP interface address
-# USTACK_TAP_ROUTE		ustack TUN/TAP interface default route
+# USTACK_TAP_ADDR		TUN/TAP interface address
+# USTACK_TAP_ROUTE		TUN/TAP interface default route
 #
 # debug compiler flags:
 # USTACK_DEBUG_FRAMES		(layer-1) low level frame level debug (hexdump)
@@ -14,7 +16,10 @@
 # USTACK_DEBUG_UDP		(layer-4) UDP level debug (informative)
 # USTACK_DEBUG_ERR		(all layers) error debug messages
 
-AFLAGS = 	-DUSTACK_TAP_ADDR=\"172.31.69.1/24\" \
+AFLAGS = 	-DUSTACK_IP_ADDR=\"172.31.69.20\" \
+		-DUSTACK_NETMASK=\"255.255.255.0\" \
+		-DUSTACK_GW_ADDR=\"172.31.69.1\" \
+		-DUSTACK_TAP_ADDR=\"172.31.69.1/24\" \
 		-DUSTACK_TAP_ROUTE=\"172.31.69.0/24\" 
 		
 DFLAGS =	-DUSTACK_DEBUG_BOOTP \
@@ -27,7 +32,7 @@ DFLAGS =	-DUSTACK_DEBUG_BOOTP \
 CFLAGS =	-O2 -Wall -c
 
 FLAGS =		$(AFLAGS) $(DFLAGS) $(CFLAGS)
-		
+
 all:
 	gcc $(FLAGS) utils.c -o utils.o
 	gcc $(FLAGS) tuntap_if.c -o tuntap_if.o

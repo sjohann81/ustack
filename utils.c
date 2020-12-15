@@ -5,6 +5,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "include/ustack.h"
 
@@ -151,4 +152,24 @@ int32_t hexdump(uint8_t *buf, uint32_t size)
 	}
 
 	return 0;
+}
+
+int32_t config(uint8_t addr[4], char *str)
+{
+	int32_t i;
+	char *p;
+	char buf[128];
+	const char delim[] = ".";
+
+	strncpy(buf, str, sizeof(buf));
+	p = strtok(buf, delim);
+	for (i = 0; i < 4 && p != NULL; i++) {
+		addr[i] = atoi(p);
+		p = strtok(NULL, delim);
+	}
+	
+	if (i < 4)
+		return -1;
+	else
+		return 0;
 }
