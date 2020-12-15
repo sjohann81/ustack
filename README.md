@@ -1,6 +1,6 @@
 # uStack - A portable and minimalistic IP stack
 
-uStack is a quick-and-dirty implementatation of most common network protocols of IPv4, suitable for experiments and integration with embedded devices with severe resource constraints. Currently, uStack supports a low level abstraction of the network card (using Linux TUN/TAP), Ethernet, ARP, BOOTP, IP, ICMP and UDP protocols.
+uStack is a quick-and-dirty implementation of most common network protocols of IPv4, suitable for experiments and integration with embedded devices with severe resource constraints. Currently, uStack supports a low level abstraction of the network card (using Linux TUN/TAP), Ethernet, ARP, BOOTP, IP, ICMP and UDP protocols.
 
 The stack is easily portable to different platforms, such as AVR or STM32 microcontrollers. The TUN/TAP driver can be replaced by real Ethernet MACs/PHYs such as the ENC28J60 chip, along with software to initialize the device and handle raw Ethernet frames. Other alternatives include the use of a basic SLIP driver.
 

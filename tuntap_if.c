@@ -19,31 +19,35 @@
 #include <fcntl.h>
 #include "include/ustack.h"
 
-static int tun_fd;
+static int32_t tun_fd;
 static char* dev;
 
 char *tapaddr = USTACK_TAP_ADDR;
 char *taproute = USTACK_TAP_ROUTE;
 
-static int set_if_route(char *dev, char *cidr)
+static int32_t set_if_route(char *dev, char *cidr)
 {
 	char buf[256];
 
 	sprintf(buf, "ip route add dev %s %s", dev, cidr);
 	printf("[DEBUG] %s\n", buf);
 	system(buf);
+	
+	return 0;
 }
 
-static int set_if_address(char *dev, char *cidr)
+static int32_t set_if_address(char *dev, char *cidr)
 {
 	char buf[256];
 
 	sprintf(buf, "ip address add dev %s local %s", dev, cidr);
 	printf("[DEBUG] %s\n", buf);
 	system(buf);
+	
+	return 0;
 }
 
-static int set_if_up(char *dev)
+static int32_t set_if_up(char *dev)
 {
 	char buf[256];
 /*	sprintf(buf, "ip link set %s address 00:11:22:33:44:55", dev);
@@ -53,12 +57,15 @@ static int set_if_up(char *dev)
 	sprintf(buf, "ip link set dev %s up", dev);
 	printf("[DEBUG] %s\n", buf);
 	system(buf);
+	
+	return 0;
 }
 
-static int tun_alloc(char *dev)
+static int32_t tun_alloc(char *dev)
 {
 	struct ifreq ifr;
-	int fd, err, i, flags;
+	int32_t fd, err;
+/*	int32_t flags;*/
 	struct ifreq s;
 
 	if ((fd = open("/dev/net/tun", O_RDWR)) < 0) {

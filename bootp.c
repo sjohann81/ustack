@@ -101,7 +101,7 @@ int32_t bootp_boot(uint8_t *packet)
 
 	while (1) {
 #ifdef USTACK_DEBUG_BOOTP
-		printf("NET: bootp_boot(), requesting interface configuration\n");
+		printf("[DEBUG]: bootp_boot(), requesting interface configuration\n");
 #endif
 		bootp_make_request(frame);
 		udp_out(addr, IPPORT_BOOTPC, IPPORT_BOOTPS, packet, sizeof(struct udp_s) + sizeof(struct bootp_s));

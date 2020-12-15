@@ -8,30 +8,6 @@
 #include <string.h>
 #include "include/ustack.h"
 
-static void frame_out_msg(uint8_t *frame)
-{
-	struct frame_netif_s *frame_s = (struct frame_netif_s *)frame;
-	
-	printf("[DEBUG] ETH frame out: dst %02x:%02x:%02x:%02x:%02x:%02x src %02x:%02x:%02x:%02x:%02x:%02x type %04x\n",
-		frame_s->ethernet.dst_addr[0], frame_s->ethernet.dst_addr[1], frame_s->ethernet.dst_addr[2],
-		frame_s->ethernet.dst_addr[3], frame_s->ethernet.dst_addr[4], frame_s->ethernet.dst_addr[5],
-		frame_s->ethernet.src_addr[0], frame_s->ethernet.src_addr[1], frame_s->ethernet.src_addr[2], 
-		frame_s->ethernet.src_addr[3], frame_s->ethernet.src_addr[4], frame_s->ethernet.src_addr[5],
-		ntohs(frame_s->ethernet.type));
-}
-
-static void frame_in_msg(uint8_t *frame)
-{
-	struct frame_netif_s *frame_s = (struct frame_netif_s *)frame;
-	
-	printf("[DEBUG] ETH frame in: dst %02x:%02x:%02x:%02x:%02x:%02x src %02x:%02x:%02x:%02x:%02x:%02x type %04x\n",
-		frame_s->ethernet.dst_addr[0], frame_s->ethernet.dst_addr[1], frame_s->ethernet.dst_addr[2],
-		frame_s->ethernet.dst_addr[3], frame_s->ethernet.dst_addr[4], frame_s->ethernet.dst_addr[5],
-		frame_s->ethernet.src_addr[0], frame_s->ethernet.src_addr[1], frame_s->ethernet.src_addr[2], 
-		frame_s->ethernet.src_addr[3], frame_s->ethernet.src_addr[4], frame_s->ethernet.src_addr[5],
-		ntohs(frame_s->ethernet.type));
-}
-
 
 /*
  * network interface send() / receive()
@@ -77,7 +53,12 @@ uint16_t netif_send(uint8_t *packet, uint16_t len)
 		frame_s->ethernet.type = htons(FRAME_IP);
 
 #ifdef USTACK_DEBUG_ETH
-		frame_out_msg(frame);
+		printf("[DEBUG] ETH frame out: dst %02x:%02x:%02x:%02x:%02x:%02x src %02x:%02x:%02x:%02x:%02x:%02x type %04x\n",
+			frame_s->ethernet.dst_addr[0], frame_s->ethernet.dst_addr[1], frame_s->ethernet.dst_addr[2],
+			frame_s->ethernet.dst_addr[3], frame_s->ethernet.dst_addr[4], frame_s->ethernet.dst_addr[5],
+			frame_s->ethernet.src_addr[0], frame_s->ethernet.src_addr[1], frame_s->ethernet.src_addr[2], 
+			frame_s->ethernet.src_addr[3], frame_s->ethernet.src_addr[4], frame_s->ethernet.src_addr[5],
+			ntohs(frame_s->ethernet.type));
 #endif
 
 		en_ll_output(frame, len + sizeof(struct eth_s));
@@ -87,7 +68,12 @@ uint16_t netif_send(uint8_t *packet, uint16_t len)
 		l = arp_request(ip, frame);
 
 #ifdef USTACK_DEBUG_ETH
-		frame_out_msg(frame);
+		printf("[DEBUG] ETH frame out: dst %02x:%02x:%02x:%02x:%02x:%02x src %02x:%02x:%02x:%02x:%02x:%02x type %04x\n",
+			frame_s->ethernet.dst_addr[0], frame_s->ethernet.dst_addr[1], frame_s->ethernet.dst_addr[2],
+			frame_s->ethernet.dst_addr[3], frame_s->ethernet.dst_addr[4], frame_s->ethernet.dst_addr[5],
+			frame_s->ethernet.src_addr[0], frame_s->ethernet.src_addr[1], frame_s->ethernet.src_addr[2], 
+			frame_s->ethernet.src_addr[3], frame_s->ethernet.src_addr[4], frame_s->ethernet.src_addr[5],
+			ntohs(frame_s->ethernet.type));
 #endif
 
 		en_ll_output(frame, l + sizeof(struct eth_s));
@@ -107,7 +93,12 @@ uint16_t netif_recv(uint8_t *packet)
 
 	if (ll_len > 0){
 #ifdef USTACK_DEBUG_ETH
-		frame_in_msg(frame);
+		printf("[DEBUG] ETH frame in: dst %02x:%02x:%02x:%02x:%02x:%02x src %02x:%02x:%02x:%02x:%02x:%02x type %04x\n",
+			frame_s->ethernet.dst_addr[0], frame_s->ethernet.dst_addr[1], frame_s->ethernet.dst_addr[2],
+			frame_s->ethernet.dst_addr[3], frame_s->ethernet.dst_addr[4], frame_s->ethernet.dst_addr[5],
+			frame_s->ethernet.src_addr[0], frame_s->ethernet.src_addr[1], frame_s->ethernet.src_addr[2], 
+			frame_s->ethernet.src_addr[3], frame_s->ethernet.src_addr[4], frame_s->ethernet.src_addr[5],
+			ntohs(frame_s->ethernet.type));
 #endif
 		if (is_local_mac(frame) || is_broadcast_mac(frame) || is_any_mac(frame)) {
 			type = ntohs(frame_s->ethernet.type);
@@ -121,7 +112,12 @@ uint16_t netif_recv(uint8_t *packet)
 								if (!memcmp(&frame_s->payload.arp.target_pa, myip, 4)){
 									len = arp_reply(frame);
 #ifdef USTACK_DEBUG_ETH
-									frame_out_msg(frame);
+									printf("[DEBUG] ETH frame out: dst %02x:%02x:%02x:%02x:%02x:%02x src %02x:%02x:%02x:%02x:%02x:%02x type %04x\n",
+										frame_s->ethernet.dst_addr[0], frame_s->ethernet.dst_addr[1], frame_s->ethernet.dst_addr[2],
+										frame_s->ethernet.dst_addr[3], frame_s->ethernet.dst_addr[4], frame_s->ethernet.dst_addr[5],
+										frame_s->ethernet.src_addr[0], frame_s->ethernet.src_addr[1], frame_s->ethernet.src_addr[2], 
+										frame_s->ethernet.src_addr[3], frame_s->ethernet.src_addr[4], frame_s->ethernet.src_addr[5],
+										ntohs(frame_s->ethernet.type));
 #endif
 									en_ll_output(frame, len);
 

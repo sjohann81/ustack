@@ -15,7 +15,6 @@ int32_t app_udp_handler(uint8_t *packet)
 	uint8_t dst_addr[4];
 	uint16_t src_port, dst_port;
 	struct ip_udp_s *udp = (struct ip_udp_s *)packet;
-	int32_t val;
 	uint8_t msg[] = "Hello world!";
 
 	src_port = ntohs(udp->udp.src_port);
@@ -28,6 +27,8 @@ int32_t app_udp_handler(uint8_t *packet)
 		memcpy(packet + sizeof(struct ip_udp_s), msg, sizeof(msg));
 		udp_out(dst_addr, dst_port, src_port, packet, sizeof(struct udp_s) + sizeof(msg));
 	}
+	
+	return 0;
 }
 
 void ethernet_exec(uint8_t *packet)
@@ -43,9 +44,7 @@ void ethernet_exec(uint8_t *packet)
 
 int main(void)
 {
-	int32_t rev;
 	uint8_t *packet = eth_frame + sizeof(struct eth_s);
-	int16_t i;
 	
 	tun_init();
 	udp_set_callback(app_udp_handler);
