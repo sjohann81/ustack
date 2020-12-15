@@ -12,6 +12,12 @@
 #define IP_CFG_PING		113		/* ping payload magic size for IP configuration */
 #define UDP_DEFAULT_PORT	30168		/* UDP default application port */
 
+/* SLIP link definitions */
+#define SLIP_END		192
+#define SLIP_ESC		219
+#define SLIP_ESC_END		220
+#define SLIP_ESC_ESC		221
+
 /* Ethernet link definitions */
 #define FRAME_ARP		0x0806		// ARP frame
 #define FRAME_IP		0x0800		// IPv4
@@ -224,6 +230,7 @@ int32_t ip_addr_isany(uint8_t addr[4]);
 int32_t ip_addr_isbroadcast(uint8_t addr[4], uint8_t mask[4]);
 int32_t ip_addr_ismulticast(uint8_t addr[4]);
 int32_t hexdump(uint8_t *buf, uint32_t size);
+int32_t config(uint8_t addr[4], char *str);
 
 /* layer 1 */
 extern void tun_init();
