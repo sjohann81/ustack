@@ -233,8 +233,8 @@ int32_t hexdump(uint8_t *buf, uint32_t size);
 int32_t config(uint8_t addr[4], char *str);
 
 /* layer 1 */
-extern void tun_init();
-extern void tun_deinit();
+extern int32_t if_setup();
+extern int32_t if_deinit();
 
 extern void en_ll_output(uint8_t *frame, uint16_t size);
 extern int32_t en_ll_input(uint8_t *frame);

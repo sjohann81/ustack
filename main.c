@@ -46,7 +46,7 @@ int main(void)
 {
 	uint8_t *packet = eth_frame + sizeof(struct eth_s);
 	
-	tun_init();
+	if_setup();
 	config(myip, USTACK_IP_ADDR);
 	config(mynm, USTACK_NETMASK);
 	config(mygw, USTACK_GW_ADDR);
@@ -61,7 +61,7 @@ int main(void)
 		ethernet_exec(packet);
 	}
 
-	tun_deinit();
+	if_deinit();
 	
 	return 0;
 }

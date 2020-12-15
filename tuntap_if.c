@@ -20,7 +20,7 @@
 #include "include/ustack.h"
 
 static int32_t tun_fd;
-static char* dev;
+static char *dev;
 
 char *tapaddr = USTACK_TAP_ADDR;
 char *taproute = USTACK_TAP_ROUTE;
@@ -99,7 +99,7 @@ static int32_t tun_alloc(char *dev)
 	return fd;
 }
 
-void tun_init()
+int32_t if_setup()
 {
 	dev = calloc(10, 1);
 	tun_fd = tun_alloc(dev);
@@ -112,11 +112,15 @@ void tun_init()
 
 	if (set_if_address(dev, tapaddr) != 0)
 		printf("[FATAL] Setting address for interface failed\n");
+		
+	return 0;
 }
 
-void tun_deinit()
+int32_t if_deinit()
 {
 	free(dev);
+	
+	return 0;
 }
 
 void en_ll_output(uint8_t *frame, uint16_t size)
