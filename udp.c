@@ -92,20 +92,20 @@ int32_t udp_in(uint8_t *packet)
 #endif
 
 	switch (dst_port) {
-		case PORT_ECHO:							/* Echo protocol, RFC862 */
-			memcpy(dst_addr, &udp->ip.src_addr, 4);
-			udp_out(dst_addr, dst_port, src_port, packet, datalen);
-			break;
-		case PORT_DISCARD:						/* Discard protocol, RFC863 */
-			break;
-		default:
-			if (udp_callback)
-				val = udp_callback(packet);
+	case PORT_ECHO:							/* Echo protocol, RFC862 */
+		memcpy(dst_addr, &udp->ip.src_addr, 4);
+		udp_out(dst_addr, dst_port, src_port, packet, datalen);
+		break;
+	case PORT_DISCARD:						/* Discard protocol, RFC863 */
+		break;
+	default:
+		if (udp_callback)
+			val = udp_callback(packet);
 #ifdef USTACK_DEBUG_ERR
-			if (val < 0) 
-				printf("[ERROR] UDP destination port error\n");
+		if (val < 0) 
+			printf("[ERROR] UDP destination port error\n");
 #endif
-			return val;
+		return val;
 	}
 
 	return datalen;

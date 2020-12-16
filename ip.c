@@ -98,18 +98,18 @@ int32_t ip_in(uint8_t dst_addr[4], uint8_t *packet, uint16_t len)
 #endif
 
 	switch (ip->proto) {
-		case IP_PROTO_ICMP:
-			val = icmp_echo_reply(packet, len);
-			break;
-		case IP_PROTO_UDP:
-			val = udp_in(packet);
-			break;
-		default:
-			if (ip_callback)
-				val = ip_callback(packet);
+	case IP_PROTO_ICMP:
+		val = icmp_echo_reply(packet, len);
+		break;
+	case IP_PROTO_UDP:
+		val = udp_in(packet);
+		break;
+	default:
+		if (ip_callback)
+			val = ip_callback(packet);
 #ifdef USTACK_DEBUG_ERR
-			if (val < 0) 
-				printf("[ERROR] IP protocol error\n");
+		if (val < 0) 
+			printf("[ERROR] IP protocol error\n");
 #endif
 	}
 
