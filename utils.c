@@ -161,7 +161,7 @@ int32_t config(uint8_t addr[4], char *str)
 	char buf[128];
 	const char delim[] = ".";
 
-	strncpy(buf, str, sizeof(buf));
+	strncpy(buf, str, sizeof(buf)-1);
 	p = strtok(buf, delim);
 	for (i = 0; i < 4 && p != NULL; i++) {
 		addr[i] = atoi(p);

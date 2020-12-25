@@ -76,7 +76,7 @@ static int32_t tun_alloc(char *dev)
 	memset(&ifr, 0, sizeof(ifr));
 	ifr.ifr_flags = IFF_TAP | IFF_NO_PI;
 	if (*dev)
-		strncpy(ifr.ifr_name, dev, IFNAMSIZ);
+		strncpy(ifr.ifr_name, dev, IFNAMSIZ-1);
 
 	if ((err = ioctl(fd, TUNSETIFF, (void *) &ifr)) < 0) {
 		printf("[FATAL] Could not ioctl tun");
