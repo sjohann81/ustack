@@ -74,12 +74,15 @@ serial:
 	stty ${BAUD} raw cs8 -parenb -crtscts clocal cread ignpar ignbrk -ixon -ixoff -ixany -brkint \
 	-icrnl -imaxbel -opost -onlcr -isig -icanon -iexten -echo -echoe -echok -echoctl -echoke -F ${SERIAL_DEV0}
 
-slip_if: serial
+slip_up: serial
 	slattach -L -d -p slip -s ${BAUD} ${SERIAL_DEV0} &
 	sleep 2
 	ifconfig sl0 $(USTACK_GW_ADDR)
 	ifconfig sl0 dstaddr $(USTACK_IP_ADDR)
 	ifconfig sl0 mtu 576
+
+slip_down:
+	killall slattach
 
 dump:
 	tcpdump -l -n -S -XX -s 0 -vv -i sl0
