@@ -11,7 +11,6 @@
 
 static int32_t (*udp_callback)(uint8_t *packet);
 
-/* FIXME: udpchksum() is buggy! */
 static uint16_t udpchksum(uint8_t *packet, uint16_t len)
 {
 	uint32_t sum = 0;
@@ -46,9 +45,10 @@ int32_t udp_out(uint8_t dst_addr[4], uint16_t src_port, uint16_t dst_port, uint8
 	udp->udp.dst_port = htons(dst_port);
 	udp->udp.len = htons(len);
 	udp->udp.chksum = htons(0);
+	memcpy(&udp->ip.src_addr, myip, 4);
+	memcpy(&udp->ip.dst_addr, dst_addr, 4);
 
-//	chksum = udpchksum(packet, len);
-	chksum = 0;
+	chksum = udpchksum(packet, len);
 	udp->udp.chksum = htons(chksum);
 	
 #ifdef USTACK_DEBUG_UDP
